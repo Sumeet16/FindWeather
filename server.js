@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 const bodyParser = require("body-parser");
 const app = express();
 
+require("dotenv").config();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
@@ -15,7 +16,7 @@ app.get("/", (req, res) => {
 app.post("/", async (req, res) => {
     try {
         const location = await req.body.city;
-        const url = "https://api.openweathermap.org/data/2.5/weather?q=" + location + "&appid=685820427c29ba407059f11d210b5223&units=metric";
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.APIKEY}&units=metric`;
         let response = await fetch(url);
         let data = await response.json();
         let locDate = {};
